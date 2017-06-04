@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -159,5 +160,13 @@ public class GreetingControllerApiTest {
 				.andExpect(content().string("")).andExpect(handler().methodName("createGreeting"));
 
 		verify(greetingService, never()).save(greeting);
+	}
+
+	@Test
+	public void deleteGreeting() throws Exception {
+		mvc.perform(delete("/api/greeting/1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent())
+				.andExpect(content().string("")).andExpect(handler().methodName("deleteGreeting"));
+
+		verify(greetingService).deleteById(1);
 	}
 }
