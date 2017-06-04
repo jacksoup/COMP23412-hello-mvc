@@ -78,4 +78,11 @@ public class GreetingController {
 
 		return "redirect:/greeting";
 	}
+
+	@DeleteMapping
+	public String deleteAllGreetings() {
+		greetingService.deleteAll();
+
+		return "redirect:/greeting";
+	}
 }
