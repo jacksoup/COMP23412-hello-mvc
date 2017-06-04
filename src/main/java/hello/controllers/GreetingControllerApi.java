@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,5 +74,12 @@ public class GreetingControllerApi {
 		Link selfLink = linkTo(methodOn(GreetingControllerApi.class).list()).withSelfRel();
 
 		return CollectionModel.of(greetings, selfLink);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteGreeting(@PathVariable("id") long id) {
+		greetingService.deleteById(id);
+
+		return ResponseEntity.noContent().build();
 	}
 }
