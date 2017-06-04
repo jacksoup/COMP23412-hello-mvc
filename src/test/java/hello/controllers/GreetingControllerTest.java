@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -183,5 +184,13 @@ public class GreetingControllerTest {
 				.andExpect(handler().methodName("createGreeting")).andExpect(flash().attributeCount(0));
 
 		verify(greetingService, never()).save(greeting);
+	}
+
+	@Test
+	public void deleteGreeting() throws Exception {
+		mvc.perform(delete("/greeting/1").accept(MediaType.TEXT_HTML).with(csrf())).andExpect(status().isFound())
+				.andExpect(view().name("redirect:/greeting")).andExpect(handler().methodName("deleteGreeting"));
+
+		verify(greetingService).deleteById(1);
 	}
 }
