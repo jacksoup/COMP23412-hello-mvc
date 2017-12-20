@@ -189,7 +189,8 @@ public class GreetingControllerTest {
 	@Test
 	public void deleteGreeting() throws Exception {
 		mvc.perform(delete("/greeting/1").accept(MediaType.TEXT_HTML).with(csrf())).andExpect(status().isFound())
-				.andExpect(view().name("redirect:/greeting")).andExpect(handler().methodName("deleteGreeting"));
+				.andExpect(view().name("redirect:/greeting")).andExpect(handler().methodName("deleteGreeting"))
+				.andExpect(flash().attributeExists("ok_message"));
 
 		verify(greetingService).deleteById(1);
 	}
@@ -197,7 +198,8 @@ public class GreetingControllerTest {
 	@Test
 	public void deleteAllGreetings() throws Exception {
 		mvc.perform(delete("/greeting").accept(MediaType.TEXT_HTML).with(csrf())).andExpect(status().isFound())
-				.andExpect(view().name("redirect:/greeting")).andExpect(handler().methodName("deleteAllGreetings"));
+				.andExpect(view().name("redirect:/greeting")).andExpect(handler().methodName("deleteAllGreetings"))
+				.andExpect(flash().attributeExists("ok_message"));
 
 		verify(greetingService).deleteAll();
 	}
