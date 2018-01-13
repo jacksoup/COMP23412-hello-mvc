@@ -26,8 +26,7 @@ public class Security extends WebSecurityConfigurerAdapter {
 	// log in before submitting the new greeting.
 	private static final RequestMatcher[] NO_AUTH = { new AntPathRequestMatcher("/webjars/**", "GET"),
 			new AntPathRequestMatcher("/", "GET"), new AntPathRequestMatcher("/api/**", "GET"),
-			new AntPathRequestMatcher("/greeting", "GET"), new AntPathRequestMatcher("/greeting/{id:[\\d]+}", "GET"),
-			new AntPathRequestMatcher("/**", "DELETE") };
+			new AntPathRequestMatcher("/greeting", "GET"), new AntPathRequestMatcher("/greeting/{id:[\\d]+}", "GET") };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
