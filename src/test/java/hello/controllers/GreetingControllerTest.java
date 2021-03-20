@@ -111,7 +111,8 @@ public class GreetingControllerTest {
 
 	@Test
 	public void postGreetingNoAuth() throws Exception {
-		mvc.perform(post("/greeting").contentType(MediaType.APPLICATION_FORM_URLENCODED).param("template", "Howdy, %s!")
+		mvc.perform(post("/greeting").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("template", "Howdy, %s!")
 				.accept(MediaType.TEXT_HTML).with(csrf())).andExpect(status().isFound())
 				.andExpect(header().string("Location", endsWith("/sign-in")));
 
@@ -199,7 +200,18 @@ public class GreetingControllerTest {
 	public void deleteAllGreetings() throws Exception {
 		mvc.perform(delete("/greeting").with(user("Rob").roles(Security.ADMIN_ROLE)).accept(MediaType.TEXT_HTML)
 				.with(csrf())).andExpect(status().isFound()).andExpect(view().name("redirect:/greeting"))
-				.andExpect(handler().methodName("deleteAllGreetings")).andExpect(flash().attributeExists("ok_message"));
+				.andExpect(handler().methodName("deleteAllGreetings"))
+				.andExpect(flash().attributeExists("ok_message"));
+
+		verify(greetingService).deleteAll();
+	}
+
+	@Test
+	public void deleteAllGreetings222() throws Exception {
+		mvc.perform(
+				delete("/api/greeting").with(user("Rob").roles(Security.ADMIN_ROLE)).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNoContent()).andExpect(content().string(""))
+				.andExpect(handler().methodName("deleteAllGreetings"));
 
 		verify(greetingService).deleteAll();
 	}

@@ -75,7 +75,7 @@ public class GreetingControllerApiTest {
 	@Test
 	public void getGreeting() throws Exception {
 		int id = 0;
-		Greeting g = new Greeting("%s");
+		Greeting g = new Greeting("%sop");
 		when(greetingService.findOne(id)).thenReturn(g);
 
 		mvc.perform(get("/api/greeting/{id}", id).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
@@ -165,7 +165,8 @@ public class GreetingControllerApiTest {
 	@Test
 	public void deleteGreeting() throws Exception {
 		mvc.perform(delete("/api/greeting/1").with(user("Rob").roles(Security.ADMIN_ROLE))
-				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent()).andExpect(content().string(""))
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNoContent()).andExpect(content().string(""))
 				.andExpect(handler().methodName("deleteGreeting"));
 
 		verify(greetingService).deleteById(1);
